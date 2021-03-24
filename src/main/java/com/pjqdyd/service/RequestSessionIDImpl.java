@@ -21,7 +21,7 @@ public class RequestSessionIDImpl implements RequestSessionID {
      * @date 2021/3/24 12:16
      */
     @Override
-    public String requestSessionID(String code) throws Exception {
+    public Map<String, String> requestSessionID(String code) throws Exception {
         //装载请求参数的Map集合,通过code,appid,app_secret获取用户的OpenId
         Map<String, String> paramsMap = new HashMap<>();
         paramsMap.put("appid", APPID);
@@ -31,6 +31,6 @@ public class RequestSessionIDImpl implements RequestSessionID {
 
         //获取用户的SessionID
         Map<String, String> resultMap = new WxHttpUtil().getWxOpenIdAndSkey(AUTH_URL, paramsMap);
-        return resultMap.get("session_key");
+        return resultMap;
     }
 }

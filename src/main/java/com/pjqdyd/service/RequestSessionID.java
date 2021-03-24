@@ -1,5 +1,7 @@
 package com.pjqdyd.service;
 
+import java.util.Map;
+
 public interface RequestSessionID {
-    String requestSessionID(String code) throws Exception;
+    Map<String, String> requestSessionID(String code) throws Exception;
 }

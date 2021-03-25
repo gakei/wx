@@ -1,4 +1,4 @@
-package com.pjqdyd.service;
+package com.wx.service;
 
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-create table table_name
+create table user
 (
 	id int auto_increment,
 	nick_name varchar(50) not null,
@@ -6,8 +6,8 @@ create table table_name
 	language varchar(20) null,
 	city varchar(20) null,
 	provinces varchar(20) null,
-	contry varchar(20) null,
-	avatar_url varchar(80) not null,
+	country varchar(20) null,
+	avatar_url varchar(200) not null,
 	constraint table_name_pk
 		primary key (id)
 );

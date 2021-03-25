@@ -1,4 +1,4 @@
-package com.pjqdyd.utils;
+package com.wx.utils;
 
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,6 @@
-package com.pjqdyd.service;
+package com.wx.service;
 
-import com.pjqdyd.utils.WxHttpUtil;
+import com.wx.utils.WxHttpUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;

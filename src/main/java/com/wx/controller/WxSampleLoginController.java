@@ -1,23 +1,16 @@
-package com.pjqdyd.controller;
+package com.wx.controller;
 
-import com.pjqdyd.dto.UserInfoDTO;
-import com.pjqdyd.service.RequestSessionID;
-import com.pjqdyd.service.StoreInRedis;
-import com.pjqdyd.utils.EncryptUtil;
-import com.pjqdyd.utils.WxHttpUtil;
+import com.wx.dto.UserInfoDTO;
+import com.wx.service.RequestSessionID;
+import com.wx.service.StoreInRedis;
+import com.wx.service.UserInsert;
+import com.wx.utils.EncryptUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.*;
-import redis.clients.jedis.Jedis;
 
 import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**   
  * @Description:  [微信小程序简单登录接口, 只获取Openid和基本信息,不包括UnionID,基本信息由前端传入]
@@ -33,6 +26,8 @@ public class WxSampleLoginController {
     private RequestSessionID requestSessionID;
     @Autowired
     private StoreInRedis storeInRedis;
+    @Autowired
+    private UserInsert userInsert;
 
     /**
      * 登录接口
@@ -57,7 +52,7 @@ public class WxSampleLoginController {
         storeInRedis.store(encryptedSessionKey.toString(), session_key, openid);
 
         //TODO:将用户数据保存入数据库
-        System.out.println(userInfoDTO);
+        userInsert.userInsert(userInfoDTO);
 
         return "Success";
     }

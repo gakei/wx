@@ -1,4 +1,4 @@
-package com.pjqdyd.utils;
+package com.wx.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;

@@ -1,4 +1,4 @@
-package com.pjqdyd.utils;
+package com.wx.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.MapType;

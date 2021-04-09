@@ -1,12 +1,17 @@
 package com.wx.controller;
 
+import com.wx.Result.LoginResult;
+import com.wx.Result.Result;
 import com.wx.dto.UserInfoDTO;
+import com.wx.mapper.UserMapper;
+import com.wx.model.UserExample;
 import com.wx.service.RequestSessionID;
 import com.wx.service.StoreInRedis;
 import com.wx.service.UserInsert;
 import com.wx.utils.EncryptUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
@@ -28,6 +33,8 @@ public class WxSampleLoginController {
     private StoreInRedis storeInRedis;
     @Autowired
     private UserInsert userInsert;
+    @Autowired
+    private UserMapper userMapper;
 
     /**
      * 登录接口
@@ -35,13 +42,13 @@ public class WxSampleLoginController {
      * @return
      */
     @PostMapping("/login")
-    public String wxLogin(@RequestParam("code") String code,
+    public Result wxLogin(@RequestParam("code") String code,
                           @RequestBody UserInfoDTO userInfoDTO) throws Exception{
         if (StringUtils.isBlank(code)){
-            return "失败-code不能为空";
+            return LoginResult.fail("登录失败，code不能为空");
         }
 
-        //获取session_key和openid
+        //获取session_key和openid(用户的唯一标识)
         Map<String, String> resultMap = requestSessionID.requestSessionID(code);
         String session_key = resultMap.get("session_key");
         String openid = resultMap.get("openid");
@@ -51,9 +58,18 @@ public class WxSampleLoginController {
         //生成一个唯一字符串sessionid作为键，将openid和session_key作为值，存入redis，超时时间设置为2小时
         storeInRedis.store(encryptedSessionKey.toString(), session_key, openid);
 
-        //TODO:将用户数据保存入数据库
-        userInsert.userInsert(userInfoDTO);
 
-        return "Success";
+        UserExample example = new UserExample();
+        UserExample.Criteria criteria = example.createCriteria();
+        criteria.andOpenIdEqualTo(openid);
+        if (userMapper.selectByExample(example).isEmpty()) {
+            userInfoDTO.setOpenId(openid);
+            //TODO:将用户数据保存入数据库
+            userInsert.userInsert(userInfoDTO);
+        } else {
+            userInfoDTO.setOpenId(openid);
+            return LoginResult.success("登录成功", userInfoDTO);
+        }
+        return null;
     }
 }

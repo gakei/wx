@@ -1,0 +1,1 @@
+alter table article modify images text null comment '文章图片的路径';

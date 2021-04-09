@@ -24,4 +24,6 @@ public class UserInfoDTO {
 
     private String avatarUrl;
 
+    private String openId;
+
 }

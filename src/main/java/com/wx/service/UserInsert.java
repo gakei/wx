@@ -24,6 +24,8 @@ public class UserInsert {
         user.setGender(userInfoDTO.getGender());
         user.setLanguage(userInfoDTO.getLanguage());
         user.setProvinces(userInfoDTO.getLanguage());
+        user.setDescription("这人很懒，没有简介");
+        user.setOpenId(userInfoDTO.getOpenId());
         userMapper.insert(user);
     }
 }
